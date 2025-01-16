@@ -111,7 +111,7 @@ def run_remove_background(args: argparse.Namespace) -> Posterior:
     if args.model == 'naive':
         inferred_model = None
     else:
-        inferred_model, _, _, _ = run_inference(dataset_obj=dataset_obj, args=args)
+        inferred_model, _, _, _ = run_inference(dataset_obj=dataset_obj, args=args, output_checkpoint_tarball=args.input_checkpoint_tarball)
         inferred_model.eval()
 
     try:
@@ -652,10 +652,6 @@ def run_inference(dataset_obj: SingleCellRNACountsDataset,
     else:
 
         logger.info('No checkpoint loaded.')
-
-        # If checkpoint is not loaded set output_checkpoint_tarball to checkpoint_filename
-        # In this way the user can use checkpoint option to set a custom locatio for checkpoint file
-        output_checkpoint_tarball = args.input_checkpoint_tarball
         logger.info(f'New checkpoint file will be saved as {output_checkpoint_tarball}')
 
         # Get the trimmed count matrix (transformed if called for).
